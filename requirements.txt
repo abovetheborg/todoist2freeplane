@@ -1,0 +1,3 @@
+todoist-python==7.0.18
+pyyaml==3.13
+-e git://github.com/abovetheborg/freeplane_schema.git#egg=freeplane_schema

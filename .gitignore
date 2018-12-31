@@ -105,3 +105,6 @@ venv.bak/
 
 #PyCharm related
 .idea/
+
+#Project related
+todoist_2_freeplane_config.yml

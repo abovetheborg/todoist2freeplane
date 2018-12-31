@@ -1,0 +1,11 @@
+# Raname this file to 'todoist_2_freeplane_config.yml'
+# Connection information
+todoist_user: username
+todoist_passwd: password
+
+# Where to put the resulting freeplane file
+freeplane_location: ~/freeplane
+
+left_side:
+  - All the lists
+  - Personnel
