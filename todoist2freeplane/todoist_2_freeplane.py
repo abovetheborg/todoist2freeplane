@@ -6,7 +6,7 @@ from freeplane_schema.freeplane_schema import FreeplaneSchema
 
 #Load the configuration
 with open("todoist_2_freeplane_config.yml", 'r') as ymlfile:
-    CFG=yaml.load(ymlfile)
+    CFG = yaml.load(ymlfile, Loader=yaml.FullLoader)
 
 # Establishing connection with Todoist
 todoist_api=todoist.TodoistAPI()
