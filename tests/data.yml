@@ -1,0 +1,55 @@
+items:
+- all_day: false
+  assigned_by_uid: 5586568
+  checked: 0
+  collapsed: 0
+  content: create a daily review checklist
+  date_added: Thu 08 Oct 2015 12:42:30 +0000
+  date_completed: null
+  date_lang: null
+  date_string: null
+  day_order: -1
+  due_date_utc: null
+  has_more_notes: false
+  id: 21026916
+  in_history: 0
+  indent: 1
+  is_archived: 0
+  is_deleted: 0
+  item_order: 1
+  labels:
+  - 214010
+  - 214003
+  parent_id: null
+  priority: 1
+  project_id: 153135796
+  responsible_uid: null
+  sync_id: null
+  user_id: 5586568
+notes:
+- content: 'What Got You Here Won''t Get You There: How Successful People Become Even
+    More Successful'
+  file_attachment: null
+  id: 5050676
+  is_archived: 0
+  is_deleted: 0
+  item_id: 23135063
+  posted: Wed 28 Oct 2015 22:22:20 +0000
+  posted_uid: 5586568
+  project_id: 152800623
+  reactions: null
+  uids_to_notify: null
+projects:
+- collapsed: 0
+  color: 7
+  has_more_notes: false
+  id: 152800622
+  inbox_project: true
+  indent: 1
+  is_archived: 0
+  is_deleted: 0
+  is_favorite: 0
+  item_order: 0
+  name: Inbox
+  parent_id: null
+  shared: false
