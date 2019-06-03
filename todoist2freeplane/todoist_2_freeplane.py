@@ -15,7 +15,7 @@ class TodoistDocument(object):
         self.remote_data = self.todoist_api.sync()
 
     def dump_to_freeplane(self, data, file_location, left_side=list()):
-        fp_doc = FreeplaneSchema()
+        fp_doc = FreeplaneSchema(mapstyle_file='mapstyles.xml')
 
         projects = data['projects']
         tasks = data['items']
@@ -69,7 +69,7 @@ class TodoistDocument(object):
             except fp_doc.FreeplaneNodeNotExisting:
                 pass
 
-        fp_doc.write_document(file_location, pretty_print_it=True)
+        fp_doc.write_document(file_location, pretty_print_it=True, add_map_styles=True)
 
 
     class TodoistDocumentError(Exception):
