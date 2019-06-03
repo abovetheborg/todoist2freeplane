@@ -37,17 +37,50 @@ class TodoistDocument(object):
             if isinstance(item, dict):
                 id_to_find = str(item['project_id'])
 
-                fp_doc.add_node_by_id(fp_doc.get_node_by_id(id_to_find), str(item['id']))
-                fp_doc.set_node_text_by_id(str(item['id']), item['content'])
-                fp_doc.set_node_style_by_id(str(item['id']), "fork")
+                try:
+                    fp_doc.add_node_by_id(fp_doc.get_node_by_id(id_to_find), str(item['id']))
+                except fp_doc.FreeplaneExpectedParentNode:
+                    pass
+                except fp_doc.FreeplaneNodeNotExisting:
+                    pass
+
+                try:
+                    fp_doc.set_node_text_by_id(str(item['id']), item['content'])
+                except fp_doc.FreeplaneExpectedParentNode:
+                    raise self.TodoistDocumentDataCorruption
+                except fp_doc.FreeplaneNodeNotExisting:
+                    raise self.TodoistDocumentDataCorruption
+
+                try:
+                    fp_doc.set_node_style_by_id(str(item['id']), "fork")
+                except fp_doc.FreeplaneExpectedParentNode:
+                    pass
+                except fp_doc.FreeplaneNodeNotExisting:
+                    pass
+
             else:
                 print("Trapped something interesting")
 
         for note in notes:
-            fp_doc.add_node_note_by_id(str(note['item_id']), note['content'])
+            try:
+                fp_doc.add_node_note_by_id(str(note['item_id']), note['content'])
+            except fp_doc.FreeplaneExpectedParentNode:
+                pass
+            except fp_doc.FreeplaneNodeNotExisting:
+                pass
 
         fp_doc.write_document(file_location, pretty_print_it=True)
 
+
+    class TodoistDocumentError(Exception):
+        """
+        General Exception for TodoistDocument
+        """
+
+    class TodoistDocumentDataCorruption(TodoistDocumentError):
+        """
+        Assumption made on the document structure appears to be invalud which point to corrupted data
+        """
 
 if __name__ == '__main__':
     # Load the configuration

@@ -6,6 +6,7 @@ from .context import TodoistDocument
 
 OUTPUT_PREFIX = os.path.join("output", "text_output_")
 
+
 @pytest.fixture
 def todoist_document():
     with open("data.yml", 'r') as ymlfile:
@@ -15,6 +16,7 @@ def todoist_document():
         t.remote_data = data
 
         return t
+
 
 def test_freeplane_document_creation(todoist_document):
     filename = OUTPUT_PREFIX + 'simple_creation.mm'
