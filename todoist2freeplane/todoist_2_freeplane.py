@@ -46,7 +46,7 @@ class TodoistDocument(object):
         for note in notes:
             fp_doc.add_node_note_by_id(str(note['item_id']), note['content'])
 
-        fp_doc.write_document(file_location)
+        fp_doc.write_document(file_location, pretty_print_it=True)
 
 
 if __name__ == '__main__':
