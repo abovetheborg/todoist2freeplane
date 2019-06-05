@@ -1,21 +1,34 @@
 import todoist
 import yaml
+import logging
+import sys
 import pprint as pp
 
 from freeplane_schema.freeplane_schema import FreeplaneSchema
 
 
 class TodoistDocument(object):
-    def __init__(self, todoist_user, todoist_password):
+    def __init__(self, todoist_user, todoist_password, logger=None):
         self.todoist_api = todoist.TodoistAPI()
         self.todoist_api.user.login(todoist_user, todoist_password)
         self.remote_data = None
+
+        self._logger = (logger or self._build_logger())
+
+    @property
+    def logger(self):
+        return self._logger
+
+    def _build_logger(self):
+        logger = logging.getLogger(self.__module__)
+        logger.addHandler(logging.NullHandler())
+        return logger
 
     def fetch_remote_data(self):
         self.remote_data = self.todoist_api.sync()
 
     def dump_to_freeplane(self, data, file_location, left_side=list()):
-        fp_doc = FreeplaneSchema(mapstyle_file='mapstyles.xml')
+        fp_doc = FreeplaneSchema(mapstyle_file='mapstyles.xml', inherited_logger=self.logger)
 
         projects = data['projects']
         tasks = data['items']
@@ -81,6 +94,19 @@ class TodoistDocument(object):
         """
         Assumption made on the document structure appears to be invalud which point to corrupted data
         """
+def logger_during_execution():
+    formatter = logging.Formatter(fmt='%(asctime)s %(levelname)-8s %(message)s',
+                                  datefmt='%Y-%m-%d %H:%M:%S')
+    handler = logging.FileHandler('log.txt', mode='w')
+    handler.setFormatter(formatter)
+    screen_handler = logging.StreamHandler(stream=sys.stdout)
+    screen_handler.setFormatter(formatter)
+    logger = logging.getLogger(__name__)
+    logger.setLevel(logging.DEBUG)
+    logger.addHandler(handler)
+    logger.addHandler(screen_handler)
+    return logger
+
 
 if __name__ == '__main__':
     # Load the configuration
@@ -88,7 +114,9 @@ if __name__ == '__main__':
         CFG = yaml.load(ymlfile, Loader=yaml.FullLoader)
 
     # Create Todoist document
-    my_todoist = TodoistDocument(todoist_user=CFG['todoist_user'], todoist_password=CFG['todoist_passwd'])
+    my_todoist = TodoistDocument(todoist_user=CFG['todoist_user'],
+                                 todoist_password=CFG['todoist_passwd'],
+                                 logger=logger_during_execution())
 
     # Go get the data
     my_todoist.fetch_remote_data()
