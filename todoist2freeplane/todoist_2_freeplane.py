@@ -28,7 +28,7 @@ class TodoistDocument(object):
         self.remote_data = self.todoist_api.sync()
 
     def dump_to_freeplane(self, data, file_location, left_side=list()):
-        fp_doc = FreeplaneSchema(mapstyle_file='mapstyles.xml', inherited_logger=self.logger)
+        fp_doc = FreeplaneSchema(inherited_logger=self.logger)
 
         projects = data['projects']
         tasks = data['items']
