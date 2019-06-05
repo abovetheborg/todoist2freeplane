@@ -1,8 +1,5 @@
 import todoist
-import yaml
 import logging
-import sys
-import pprint as pp
 
 from freeplane_schema.freeplane_schema import FreeplaneSchema
 
@@ -94,37 +91,3 @@ class TodoistDocument(object):
         """
         Assumption made on the document structure appears to be invalud which point to corrupted data
         """
-def logger_during_execution():
-    formatter = logging.Formatter(fmt='%(asctime)s %(levelname)-8s %(message)s',
-                                  datefmt='%Y-%m-%d %H:%M:%S')
-    handler = logging.FileHandler('log.txt', mode='w')
-    handler.setFormatter(formatter)
-    screen_handler = logging.StreamHandler(stream=sys.stdout)
-    screen_handler.setFormatter(formatter)
-    logger = logging.getLogger(__name__)
-    logger.setLevel(logging.DEBUG)
-    logger.addHandler(handler)
-    logger.addHandler(screen_handler)
-    return logger
-
-
-if __name__ == '__main__':
-    # Load the configuration
-    with open("todoist_2_freeplane_config.yml", 'r') as ymlfile:
-        CFG = yaml.load(ymlfile, Loader=yaml.FullLoader)
-
-    # Create Todoist document
-    my_todoist = TodoistDocument(todoist_user=CFG['todoist_user'],
-                                 todoist_password=CFG['todoist_passwd'],
-                                 logger=logger_during_execution())
-
-    # Go get the data
-    my_todoist.fetch_remote_data()
-
-    # Dump the data in freeplane format
-    my_todoist.dump_to_freeplane(my_todoist.remote_data, CFG['freeplane_location'] + "toto2.mm", CFG['left_side'])
-
-
-# Notes:
-# item_id maps to the task
-# content is the content of the note (string, not html)

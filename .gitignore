@@ -108,5 +108,7 @@ venv.bak/
 
 #Project related
 todoist_2_freeplane_config.yml
+
 tests/output/**
 tests/data_secret.yml
+tests/log.txt
